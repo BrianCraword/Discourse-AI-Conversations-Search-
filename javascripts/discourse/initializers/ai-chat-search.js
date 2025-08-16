@@ -2,14 +2,14 @@ import { apiInitializer } from "discourse/lib/api";
 
 export default apiInitializer("0.12.1", (api) => {
   const URL_TMPL = "/search?q=keywords%20in%3Amessages";
-  const PANEL_SELECTOR = ".sidebar-sections.ai-conversations-panel";
+  const PANEL_SELECTOR = ".sidebar-sections.ai-conversations-panel"; // AI sidebars only
   const BOX_ID = "ai-chats-search";
 
   function allowedUser() {
     const u = api.getCurrentUser?.();
-    if (!u) return false;              // guests
-    if (u.staff) return true;          // staff always allowed
-    return (u.trust_level || 0) >= 1;  // TL1+
+    if (!u) return false;             // guest
+    if (u.staff) return true;         // staff always allowed
+    return (u.trust_level || 0) >= 1; // TL1+
   }
 
   function buildForm() {
@@ -22,7 +22,7 @@ export default apiInitializer("0.12.1", (api) => {
       <div class="ai-chats-row">
         <input id="ai-chats-term" class="ai-chats-input" type="text"
                placeholder="Search…" autocomplete="off" />
-        <button class="ai-chats-btn" type="submit" title="Search" aria-label="Search">🔎</button>
+        <button class="ai-chats-btn" type="submit" title="Search">🔎</button>
       </div>
     `;
     form.addEventListener("submit", (e) => {
@@ -38,24 +38,26 @@ export default apiInitializer("0.12.1", (api) => {
     return form;
   }
 
-  function pruneIfOutOfScope() {
-    document.querySelectorAll(`#${BOX_ID}`).forEach((n) => {
-      if (!allowedUser() || !n.closest(PANEL_SELECTOR)) n.remove();
+  function removeStrays() {
+    document.querySelectorAll(`#${BOX_ID}`).forEach((node) => {
+      if (!allowedUser() || !node.closest(PANEL_SELECTOR)) node.remove();
     });
   }
 
   function mountAll() {
-    pruneIfOutOfScope();
+    removeStrays();
     if (!allowedUser()) return;
+
     document.querySelectorAll(PANEL_SELECTOR).forEach((panel) => {
-      if (!panel.querySelector(`#${BOX_ID}`)) panel.prepend(buildForm());
+      if (panel.querySelector(`#${BOX_ID}`)) return;
+      panel.prepend(buildForm()); // top of the AI panel
     });
   }
 
   api.onPageChange(mountAll);
   document.addEventListener("DOMContentLoaded", mountAll);
-  new MutationObserver(mountAll).observe(document.documentElement, {
-    childList: true,
-    subtree: true,
-  });
+
+  // Catch sidebar re-renders
+  const obs = new MutationObserver(mountAll);
+  obs.observe(document.documentElement, { childList: true, subtree: true });
 });
