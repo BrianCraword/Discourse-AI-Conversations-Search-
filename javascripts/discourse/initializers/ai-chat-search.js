@@ -20,10 +20,10 @@ export default apiInitializer("0.12.1", (api) => {
     form.className = "ai-chats-search";
     form.setAttribute("role", "search");
     form.innerHTML = `
-      <label class="ai-chats-label" for="ai-chats-term">Search chats</label>
+      <label class="ai-chats-label" for="ai-chats-term">AI Messages</label>
       <div class="ai-chats-row">
         <input id="ai-chats-term" class="ai-chats-input" type="text"
-               placeholder="Type to search your messages…" autocomplete="off" />
+               placeholder="Search…" autocomplete="off" />
         <button class="ai-chats-btn" type="submit" title="Search">🔎</button>
       </div>
     `;
