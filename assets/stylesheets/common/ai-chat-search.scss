@@ -2,7 +2,7 @@
 .ai-conversations-panel #ai-chats-search.ai-chats-search {
   display: block;
   margin: 4px 6px 10px 6px;  /* fits your pill gutter */
-  padding: 0;
+  padding: 0;                /* no extra L/R padding */
   background: #fff;
   border: 1px solid var(--vc-border, #e6e6e6);
   border-radius: 12px;
@@ -16,43 +16,32 @@
   color: var(--vc-text, #222);
 }
 
-/* Keep input + button on one line */
 .ai-conversations-panel .ai-chats-row {
-  display: flex !important;
+  display: flex;
   align-items: center;
-  flex-wrap: nowrap;        /* <-- force single line */
   gap: 6px;
-  margin: 0 8px 8px;
+  margin: 0 8px 8px;  /* keeps the input flush with the sidebar edges */
 }
 
-/* Input can shrink; match button height */
 .ai-conversations-panel .ai-chats-input {
   flex: 1 1 auto;
-  min-width: 0;            /* <-- allow shrinking (prevents wrap) */
-  width: auto;             /* override any inherited 100% */
+  width: 100%;
   box-sizing: border-box;
-  height: 36px;
   padding: 8px 10px;
   border: 1px solid var(--vc-border, #e6e6e6);
   border-radius: 8px;
   background: #fff;
 }
+
 .ai-conversations-panel .ai-chats-input:focus {
   outline: 2px solid var(--vc-orange, #ff7a00);
   outline-offset: 1px;
 }
 
-/* Fixed-size button so layout never wraps */
 .ai-conversations-panel .ai-chats-btn {
-  flex: 0 0 40px !important;  /* <-- reserves space */
-  width: 40px !important;
-  height: 36px;
-  display: grid;              /* nice centering for the icon */
-  place-items: center;
-  box-sizing: border-box;
   border: 1px solid var(--vc-border, #e6e6e6);
   border-radius: 8px;
-  padding: 0;
+  padding: 8px 10px;
   background: var(--primary-very-low, #f6f6f6);
   cursor: pointer;
 }
