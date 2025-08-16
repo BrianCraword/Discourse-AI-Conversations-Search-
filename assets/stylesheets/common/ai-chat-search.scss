@@ -1,51 +1,63 @@
-/* Scope everything to the AI conversations sidebars only */
-.ai-conversations-panel #ai-chats-search.ai-chats-search {
+/* Scope to AI Conversations sidebars only */
+#d-sidebar .ai-conversations-panel #ai-chats-search.ai-chats-search {
   display: block;
-  margin: 4px 6px 10px 6px;  /* fits your pill gutter */
-  padding: 0;                /* no extra L/R padding */
+  margin: 4px 6px 10px 6px;
+  padding: 0;
   background: #fff;
   border: 1px solid var(--vc-border, #e6e6e6);
   border-radius: 12px;
   box-shadow: var(--vc-shadow, 0 1px 0 rgba(0,0,0,.02));
 }
 
-.ai-conversations-panel .ai-chats-label {
+/* Label */
+#d-sidebar .ai-conversations-panel .ai-chats-label {
   display: block;
   font-weight: 700;
   margin: 8px 10px 6px;
   color: var(--vc-text, #222);
 }
 
-.ai-conversations-panel .ai-chats-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin: 0 8px 8px;  /* keeps the input flush with the sidebar edges */
+/* Force input + button on ONE line */
+#d-sidebar .ai-conversations-panel .ai-chats-row {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  gap: 6px !important;
+  margin: 0 8px 8px !important;
 }
 
-.ai-conversations-panel .ai-chats-input {
-  flex: 1 1 auto;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 8px 10px;
-  border: 1px solid var(--vc-border, #e6e6e6);
-  border-radius: 8px;
-  background: #fff;
+/* Input can shrink; match button height */
+#d-sidebar .ai-conversations-panel .ai-chats-input {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;       /* key to prevent wrap */
+  width: auto !important;
+  box-sizing: border-box !important;
+  height: 36px !important;
+  padding: 8px 10px !important;
+  border: 1px solid var(--vc-border, #e6e6e6) !important;
+  border-radius: 8px !important;
+  background: #fff !important;
 }
-
-.ai-conversations-panel .ai-chats-input:focus {
+#d-sidebar .ai-conversations-panel .ai-chats-input:focus {
   outline: 2px solid var(--vc-orange, #ff7a00);
   outline-offset: 1px;
 }
 
-.ai-conversations-panel .ai-chats-btn {
-  border: 1px solid var(--vc-border, #e6e6e6);
-  border-radius: 8px;
-  padding: 8px 10px;
-  background: var(--primary-very-low, #f6f6f6);
-  cursor: pointer;
+/* Fixed-size button so layout never wraps */
+#d-sidebar .ai-conversations-panel .ai-chats-btn {
+  flex: 0 0 40px !important;
+  width: 40px !important;
+  height: 36px !important;
+  display: grid !important;
+  place-items: center !important;
+  box-sizing: border-box !important;
+  border: 1px solid var(--vc-border, #e6e6e6) !important;
+  border-radius: 8px !important;
+  padding: 0 !important;
+  background: var(--primary-very-low, #f6f6f6) !important;
+  cursor: pointer !important;
 }
-.ai-conversations-panel .ai-chats-btn:hover { filter: brightness(0.97); }
+#d-sidebar .ai-conversations-panel .ai-chats-btn:hover { filter: brightness(0.97); }
 
 /* Mobile drawer */
 html.mobile-view #d-sidebar .ai-conversations-panel #ai-chats-search.ai-chats-search {
