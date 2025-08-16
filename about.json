@@ -1,0 +1,8 @@
+{
+  "name": "AI Chat Search (Discourse AI Conversations)",
+  "component": true,
+  "about_url": "https://github.com/YOURORG/discourse-ai-chat-search",
+  "license_url": "https://opensource.org/licenses/MIT",
+  "authors": "Brian Crawford & contributors",
+  "minimum_discourse_version": "3.2.0"
+}
