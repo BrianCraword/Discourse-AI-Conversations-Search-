@@ -1,15 +1,13 @@
 import { apiInitializer } from "discourse/lib/api";
 
 export default apiInitializer("0.12.1", (api) => {
-  // Exact URL format requested (no expanded UI)
   const URL_TMPL = "/search?q=keywords%20in%3Amessages";
-  // Mount only in the AI Conversations sidebars (list + single chat)
   const PANEL_SELECTOR = ".sidebar-sections.ai-conversations-panel";
   const BOX_ID = "ai-chats-search";
 
   function allowedUser() {
     const u = api.getCurrentUser?.();
-    if (!u) return false;              // guests: hidden
+    if (!u) return false;              // guests
     if (u.staff) return true;          // staff always allowed
     return (u.trust_level || 0) >= 1;  // TL1+
   }
@@ -24,7 +22,7 @@ export default apiInitializer("0.12.1", (api) => {
       <div class="ai-chats-row">
         <input id="ai-chats-term" class="ai-chats-input" type="text"
                placeholder="Search…" autocomplete="off" />
-        <button class="ai-chats-btn" type="submit" title="Search">🔎</button>
+        <button class="ai-chats-btn" type="submit" title="Search" aria-label="Search">🔎</button>
       </div>
     `;
     form.addEventListener("submit", (e) => {
@@ -41,26 +39,23 @@ export default apiInitializer("0.12.1", (api) => {
   }
 
   function pruneIfOutOfScope() {
-    // Remove if user downgraded or panel not present
-    document.querySelectorAll(`#${BOX_ID}`).forEach((node) => {
-      if (!allowedUser() || !node.closest(PANEL_SELECTOR)) node.remove();
+    document.querySelectorAll(`#${BOX_ID}`).forEach((n) => {
+      if (!allowedUser() || !n.closest(PANEL_SELECTOR)) n.remove();
     });
   }
 
   function mountAll() {
     pruneIfOutOfScope();
     if (!allowedUser()) return;
-
     document.querySelectorAll(PANEL_SELECTOR).forEach((panel) => {
-      if (panel.querySelector(`#${BOX_ID}`)) return;
-      panel.prepend(buildForm()); // place at top of the AI panel
+      if (!panel.querySelector(`#${BOX_ID}`)) panel.prepend(buildForm());
     });
   }
 
   api.onPageChange(mountAll);
   document.addEventListener("DOMContentLoaded", mountAll);
-
-  // Handle sidebar re-renders
-  const obs = new MutationObserver(mountAll);
-  obs.observe(document.documentElement, { childList: true, subtree: true });
+  new MutationObserver(mountAll).observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+  });
 });
