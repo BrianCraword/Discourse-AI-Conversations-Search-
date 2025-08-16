@@ -1,7 +1,7 @@
-/* Scope to AI Conversations sidebars */
+/* Scope everything to the AI conversations sidebars only */
 .ai-conversations-panel #ai-chats-search.ai-chats-search {
   display: block;
-  margin: 4px 6px 10px 6px;  /* align with your pill gutter */
+  margin: 4px 6px 10px 6px;  /* fits your pill gutter */
   padding: 0;
   background: #fff;
   border: 1px solid var(--vc-border, #e6e6e6);
@@ -9,7 +9,6 @@
   box-shadow: var(--vc-shadow, 0 1px 0 rgba(0,0,0,.02));
 }
 
-/* Label */
 .ai-conversations-panel .ai-chats-label {
   display: block;
   font-weight: 700;
@@ -17,19 +16,20 @@
   color: var(--vc-text, #222);
 }
 
-/* Keep input + button on ONE line, no wrapping */
+/* Keep input + button on one line */
 .ai-conversations-panel .ai-chats-row {
   display: flex !important;
-  align-items: stretch;
-  flex-wrap: nowrap;
+  align-items: center;
+  flex-wrap: nowrap;        /* <-- force single line */
   gap: 6px;
   margin: 0 8px 8px;
 }
 
-/* Input */
+/* Input can shrink; match button height */
 .ai-conversations-panel .ai-chats-input {
   flex: 1 1 auto;
-  min-width: 0;              /* prevents overflow causing wrap */
+  min-width: 0;            /* <-- allow shrinking (prevents wrap) */
+  width: auto;             /* override any inherited 100% */
   box-sizing: border-box;
   height: 36px;
   padding: 8px 10px;
@@ -42,12 +42,14 @@
   outline-offset: 1px;
 }
 
-/* Button (fixed width so it never wraps) */
+/* Fixed-size button so layout never wraps */
 .ai-conversations-panel .ai-chats-btn {
-  flex: 0 0 40px !important; /* force single-line layout */
+  flex: 0 0 40px !important;  /* <-- reserves space */
   width: 40px !important;
   height: 36px;
-  line-height: 1;
+  display: grid;              /* nice centering for the icon */
+  place-items: center;
+  box-sizing: border-box;
   border: 1px solid var(--vc-border, #e6e6e6);
   border-radius: 8px;
   padding: 0;
@@ -56,7 +58,7 @@
 }
 .ai-conversations-panel .ai-chats-btn:hover { filter: brightness(0.97); }
 
-/* Mobile drawer keeps same fit */
+/* Mobile drawer */
 html.mobile-view #d-sidebar .ai-conversations-panel #ai-chats-search.ai-chats-search {
   margin: 6px 6px 12px;
 }
